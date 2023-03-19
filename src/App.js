@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import CountrySelect from './components/CountrySelect';
+import AddImpression from './components/AddImpression';
+import ImpressionList from './components/ImpressionsList';
 
 function App() {
+  const [countries, setCountries] = useState([]);
+  const [selectedCountryCode, setSelectedCountryCode] = useState('');
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get('https://restcountries.com/v3.1/all');
+        setCountries(response.data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Country Impressions</h1>
+      <CountrySelect
+        countries={countries}
+        selectedCountryCode={selectedCountryCode}
+        setSelectedCountryCode={setSelectedCountryCode}
+      />
+      <AddImpression countryCode={selectedCountryCode} />
+      <ImpressionList countryCode={selectedCountryCode} />
     </div>
   );
 }

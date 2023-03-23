@@ -21,7 +21,7 @@ const CountrySelect = ({ countries, selectedCountryCode, setSelectedCountryCode 
             <img
               src={country.flags.svg}
               alt={country.name.common}
-              style={{ width: '20px', marginRight: '8px' }}
+              style={{ width: '20px', marginRight: '8px'}}
             />
             {country.name.common}
           </MenuItem>

@@ -1,8 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import firebase from '../firebase';
-import { List, ListItem, ListItemText, IconButton } from '@mui/material';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import {  ListItemText} from '@mui/material';
+import { Card, CardContent, Grid, Grow } from '@mui/material';
+import { styled, } from '@mui/system';
 
+
+  
+const StyledCard = styled(Card)(({ theme }) => ({
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    position: 'relative',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'transform 0.3s, box-shadow 0.3s',
+    '&:hover': {
+      transform: 'scale(1.05)',
+      boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
+    },
+  }));
+  
+  const StyledCardContent = styled(CardContent)(({ theme }) => ({
+    textAlign: 'center',
+  }));
+  
+  
+
+  
+
+
+
+  
+  
 const ImpressionList = ({ countryCode }) => {
   const [impressions, setImpressions] = useState([]);
 
@@ -43,21 +73,23 @@ const ImpressionList = ({ countryCode }) => {
   };
 
   return (
-    <List>
+    <Grid container spacing={2}>
       {impressions.map((impression) => (
-        <ListItem key={impression.key}>
-          <ListItemText primary={`${impression.word} (${impression.voteCount})`} />
-          <IconButton
-            edge="end"
-            color="primary"
-            onClick={() => handleVote(impression.key, impression.voteCount)}
-          >
-            <ThumbUpIcon />
-          </IconButton>
-        </ListItem>
+        <Grow in={true} key={impression.key}>
+          <Grid item xs={12} sm={6} md={4}>
+            <StyledCard
+              onClick={() => handleVote(impression.key, impression.voteCount)}
+            >
+              <StyledCardContent>
+                <ListItemText primary={`${impression.word} (${impression.voteCount})`} />
+              </StyledCardContent>
+            </StyledCard>
+          </Grid>
+        </Grow>
       ))}
-    </List>
-  );
-};
+    </Grid>
+);
+
+  }
 
 export default ImpressionList;
